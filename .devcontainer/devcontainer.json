@@ -20,7 +20,7 @@
 		}
 	},
 	"waitFor": "onCreateCommand",
-	"updateContentCommand": "python3 -m pip install -r requirements.txt",
+	"updateContentCommand": "python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt && (python3 -m pip install -r requirements-mcp.txt || echo 'Warning: Some MCP packages failed to install')",
 	"postCreateCommand": "",
 	"customizations": {
 	  "codespaces": {
