@@ -10,10 +10,6 @@
 			"installBicep": true,
 			"version": "latest"
 		},
-		"ghcr.io/devcontainers/features/python:1": {
-			"installTools": true,
-			"version": "os-provided"
-		},
 		"ghcr.io/stuartleeks/dev-container-features/azure-cli-persistence:0": {},
 		"ghcr.io/azure/azure-dev/azd:0": {
 			"version": "stable"
@@ -26,7 +22,7 @@
 		}
 	},
 	"waitFor": "onCreateCommand",
-	"updateContentCommand": "python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt",
+	"updateContentCommand": "echo '=== Python Version Debug ===' && python3 --version && which python3 && echo '=== Installing packages ===' && python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt",
 	"postCreateCommand": ".devcontainer/post-create.sh",
 	"customizations": {
 	  "codespaces": {
