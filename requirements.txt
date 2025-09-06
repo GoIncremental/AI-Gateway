@@ -27,4 +27,9 @@ azure-search-documents
 azure-functions
 azure-mgmt-apimanagement
 
-# MCP Labs - moved to requirements-mcp.txt for separate installation
+# MCP Labs
+mcp
+autogen-core 
+autogen-ext[openai,azure,mcp] 
+autogen-agentchat
+semantic-kernel[mcp]
