@@ -12,13 +12,20 @@ set +e
 if command -v npm &> /dev/null; then
     echo "Installing global npm packages for AI assistants..."
     
-    # Install any global npm packages that might be needed
-    # (Most VS Code extensions handle their own dependencies, but we can add global tools here)
+    # Install Claude Code CLI
+    echo "🤖 Installing Claude Code CLI..."
+    npm install -g @anthropic-ai/claude-code
     
-    # Example: Install TypeScript globally for better language support
+    # Install OpenAI Codex CLI
+    echo "🤖 Installing OpenAI Codex CLI..."
+    npm install -g @openai/codex
+    
+    # Install TypeScript globally for better language support
+    echo "📝 Installing TypeScript..."
     npm install -g typescript@latest
     
     # Install Prettier for code formatting
+    echo "✨ Installing Prettier..."
     npm install -g prettier
     
     echo "Global npm packages installed."
@@ -87,5 +94,7 @@ echo ""
 echo "🔑 Authentication reminders:"
 echo "  - Run 'gh auth login' to authenticate with GitHub"
 echo "  - Run 'az login' to authenticate with Azure"
+echo "  - Run 'claude' to start Claude Code CLI (requires authentication on first use)"
+echo "  - Run 'codex' to start OpenAI Codex CLI (requires ChatGPT Plus/API key)"
 echo ""
 echo "🚀 Happy coding with your AI assistants!"
