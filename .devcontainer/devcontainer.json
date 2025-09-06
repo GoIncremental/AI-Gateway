@@ -22,7 +22,7 @@
 		}
 	},
 	"waitFor": "onCreateCommand",
-	"updateContentCommand": "echo '=== Python Version Debug ===' && python3 --version && which python3 && echo '=== Installing packages ===' && python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt",
+	"updateContentCommand": "python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt",
 	"postCreateCommand": ".devcontainer/post-create.sh",
 	"customizations": {
 	  "codespaces": {
@@ -39,7 +39,8 @@
 		  "GitHub.copilot-chat",
 		  "ms-azuretools.vscode-docker",
 		  "ms-vscode.azure-account",
-		  "ms-azuretools.vscode-azurefunctions"
+		  "ms-azuretools.vscode-azurefunctions",
+		  "google.geminicodeassist"
 		]
 	  }
 	}
