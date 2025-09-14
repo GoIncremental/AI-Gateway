@@ -123,8 +123,8 @@
         <set-variable name="codeChallengeMethod" value="S256" />
         <set-variable name="redirectUri" value="{{OAuthCallbackUri}}" />
         <set-variable name="clientId" value="{{EntraIDClientId}}" />
-        <set-variable name="clientAssertionType" value="@(System.Net.WebUtility.UrlEncode("urn:ietf:params:oauth:client-assertion-type:jwt-bearer"))" />
-        <authentication-managed-identity resource="api://AzureADTokenExchange" client-id="{{EntraIDClientId}}" output-token-variable-name="ficToken"/>
+        <!-- Use confidential client secret for token exchange with Entra ID -->
+        <set-variable name="clientSecret" value="{{EntraIDClientSecret}}" />
          
         <!-- STEP 4: Configure token request to Entra ID -->
         <set-method>POST</set-method>
@@ -132,7 +132,9 @@
             <value>application/x-www-form-urlencoded</value>
         </set-header>
         <set-body>@{
-            return $"client_id={context.Variables.GetValueOrDefault("clientId")}&grant_type=authorization_code&code={context.Variables.GetValueOrDefault("authCode")}&redirect_uri={context.Variables.GetValueOrDefault("redirectUri")}&scope=User.Read&code_verifier={context.Variables.GetValueOrDefault("codeVerifier")}&client_assertion_type={context.Variables.GetValueOrDefault("clientAssertionType")}&client_assertion={context.Variables.GetValueOrDefault("ficToken")}";
+            // Align scope with configured OAuth scopes used during authorize request
+            string scopes = "{{OAuthScopes}}";
+            return $"client_id={context.Variables.GetValueOrDefault("clientId")}&grant_type=authorization_code&code={context.Variables.GetValueOrDefault("authCode")}&redirect_uri={context.Variables.GetValueOrDefault("redirectUri")}&scope={System.Net.WebUtility.UrlEncode(scopes)}&code_verifier={context.Variables.GetValueOrDefault("codeVerifier")}&client_secret={System.Net.WebUtility.UrlEncode((string)context.Variables.GetValueOrDefault("clientSecret"))}";
         }</set-body>
         <rewrite-uri template="/token" />
     </inbound>

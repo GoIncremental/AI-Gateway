@@ -47,9 +47,10 @@
             byte[] decryptedBytes = inBytes.Decrypt("Aes", key, IV);
             return Encoding.UTF8.GetString(decryptedBytes);
          }" />
-        <!-- if decrypted Session Id does not match the session we should throw error-->
+        <!-- Validate session by checking APIM cache for an Entra token tied to this session ID -->
+        <cache-lookup-value key="@($"EntraToken-{context.Variables.GetValueOrDefault("decryptedSessionId", "")}")" variable-name="sessionEntry" />
         <choose>
-            <when condition="@((string)context.Variables["decryptedSessionId"] != "sessionId123")">
+            <when condition="@(string.IsNullOrEmpty((string)context.Variables.GetValueOrDefault("sessionEntry", "")))">
                 <return-response>
                     <set-status code="401" reason="Unauthorized" />
                     <set-header name="WWW-Authenticate" exists-action="override">
@@ -57,7 +58,7 @@
                     </set-header>
                     <set-body>{
                         "error": "unauthorized",
-                        "error_description": "token is not valid"
+                        "error_description": "session not found or expired"
                         }</set-body>
                 </return-response>
             </when>
